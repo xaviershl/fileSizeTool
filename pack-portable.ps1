@@ -29,7 +29,7 @@ $publishArgs = @(
     $projectPath,
     '-c', $Configuration,
     '-r', $Runtime,
-    '--self-contained', 'true',
+    '--self-contained', 'false',
     '-o', $publishDir,
     '/p:GenerateFullPaths=true',
     '/p:PublishSingleFile=false',
@@ -45,8 +45,16 @@ if (-not (Test-Path $publishDir)) {
     throw "Publish output folder was not created: $publishDir"
 }
 
+# Copy runtime-check script into publish dir to provide friendly prompt if .NET is missing
+$runBat = Join-Path $PSScriptRoot 'run.bat'
+if (Test-Path $runBat) {
+    Copy-Item $runBat -Destination $publishDir -Force
+} else {
+    Write-Host "Warning: run.bat not found, publish package will not include runtime-check launcher."
+}
+
 Write-Host "Creating portable zip package..."
 Compress-Archive -Path (Join-Path $publishDir '*') -DestinationPath $zipOutput -Force
 
 Write-Host "Portable package created successfully: $zipOutput"
-Write-Host "Ready to distribute. 只需解压后直接运行 ${publishDir}\FileSizeTool.exe"
+Write-Host ("Ready to distribute. Unzip and run FileSizeTool.exe in the publish directory: {0}\FileSizeTool.exe" -f $publishDir)

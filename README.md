@@ -9,3 +9,11 @@
 ## 使用方式
 
 选择你想检测的盘符，点击扫描，然后等待结果即可。如果仅看文件（夹）名称不能让你回忆起它是什么东西，你可以点击大小，让列表按照大小来排序。找到罪魁祸首之后，怎么处理它就看你自己。
+
+## 运行时要求
+
+- **仅支持 Windows**：发布包针对 Windows 平台。
+- **Framework-dependent 发布**：为了减小安装包体积，发布包不再把整个 .NET 8 运行时打包进去（即非 self-contained）。
+- **如果没有运行时**：解压后请运行 `run.bat`（或双击 `FileSizeTool.exe`），若未检测到 .NET 运行时会弹窗提示用户下载安装 .NET 8 运行时：https://dotnet.microsoft.com/download/dotnet/8.0
+
+如果你希望发布包含运行时（自包含、体积更大），可在打包时修改 `pack-portable.ps1` 或使用 `dotnet publish --self-contained true -r win-x64`。

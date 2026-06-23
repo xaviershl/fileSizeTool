@@ -10,6 +10,11 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
 
+  <!-- 发布为 framework-dependent（不打包 .NET 运行时）以减小安装包体积 -->
+  <PropertyGroup>
+    <SelfContained>false</SelfContained>
+  </PropertyGroup>
+
   <ItemGroup>
     <Resource Include="icon.ico" />
   </ItemGroup>
